@@ -18,7 +18,7 @@ const basePath = window.location.hostname === 'finiasb.github.io' ? 'https://fin
 
 console.log('basePath:', basePath);console.log('basePath:', basePath);
 
-const listaElevi = document.getElementById('lista-elevi');x
+const listaElevi = document.getElementById('lista-elevi');
 const listaDetalii = document.getElementById('lista-detalii');
 const detailTitle = document.getElementById('detail-title');
 const tabelDetalii = document.getElementById('tabel-detalii');
