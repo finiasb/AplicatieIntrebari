@@ -1,0 +1,111 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+h2 {
+    text-align: center;
+    color: white;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+#student-buttons {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.student-button {
+    display: inline-block;
+    margin: 10px;
+    padding: 15px 25px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+.student-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+th {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.clickable-row:hover {
+    background-color: #e3f2fd;
+}
+#detail-title {
+    text-align: center;
+    color: white;
+    font-size: 1.8em;
+    margin: 30px 0 20px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+#tabel-detalii {
+    margin-top: 20px;
+}
+#tabel-detalii th {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+}
+#tabel-detalii .clickable-row:hover {
+    background-color: #f3e5f5;
+}
+#image-modal {
+    display: none;
+}
+#image-modal button {
+    font-weight: 600;
+}
+#image-modal button:hover {
+    background: #e0e0e0;
+}
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    h2 {
+        font-size: 2em;
+    }
+    .student-button {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+        margin: 10px auto;
+    }
+    th, td {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+    #detail-title {
+        font-size: 1.5em;
+    }
+}

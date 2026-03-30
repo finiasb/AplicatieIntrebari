@@ -2,10 +2,195 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Redirecționare Profesor</title>
-    <meta http-equiv="refresh" content="0; url=/profesor.html" />
+    <title>Catalog Profesor</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p>Dacă nu ești redirecționat, <a href="/profesor.html">click aici</a> pentru catalogul profesorului.</p>
+
+    <h2>📊 Catalog Rezultate - Geometrie</h2>
+    <div id="student-buttons" style="margin-bottom: 20px;"></div>
+    <div id="student-table" style="display:none;">
+        <table id="tabel-scoruri">
+            <thead>
+                <tr>
+                    <th>Nume Elev</th>
+                    <th>Scor</th>
+                    <th>Categorii</th>
+                    <th>Data Completării</th>
+                </tr>
+            </thead>
+            <tbody id="lista-elevi"></tbody>
+        </table>
+
+        <h3 id="detail-title" style="display:none; margin-top: 30px;">Detalii completare</h3>
+        <table id="tabel-detalii" style="display:none; margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Întrebare</th>
+                    <th>Categorie</th>
+                    <th>Răspuns elev</th>
+                    <th>Răspuns corect</th>
+                    <th>Corect</th>
+                    <th>Hint folosit</th>
+                    <th>Rezolvare</th>
+                </tr>
+            </thead>
+            <tbody id="lista-detalii"></tbody>
+        </table>
+        <div id="image-modal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;">
+            <img id="modal-image" style="max-width: 90%; max-height: 90%;">
+            <button onclick="document.getElementById('image-modal').style.display='none';" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em;">Închide</button>
+        </div>
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyB2hpvwgJTrEnr-oRRLy9Uf82Ta16OGBtc",
+        authDomain: "scoala-1c1e9.firebaseapp.com",
+        projectId: "scoala-1c1e9",
+        storageBucket: "scoala-1c1e9.firebasestorage.app",
+        messagingSenderId: "650085750607",
+        appId: "1:650085750607:web:cb8310463e98a85680173a",
+        measurementId: "G-01HV2DWBR7",
+        databaseURL: "https://scoala-1c1e9-default-rtdb.europe-west1.firebasedatabase.app"
+        };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const listaElevi = document.getElementById('lista-elevi');
+    const listaDetalii = document.getElementById('lista-detalii');
+    const detailTitle = document.getElementById('detail-title');
+    const tabelDetalii = document.getElementById('tabel-detalii');
+    const studentButtons = document.getElementById('student-buttons');
+    const studentTable = document.getElementById('student-table');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentName = urlParams.get('student');
+
+    // Citire date în timp real
+    database.ref('scoruri').on('value', (snapshot) => {
+        const date = snapshot.val();
+        if (!date) return;
+
+        const records = [];
+        for (let id in date) {
+            records.push({ id, ...date[id] });
+        }
+
+        // afișare de sus în jos (cele mai noi la început)
+        records.reverse();
+
+        if (studentName) {
+            // Afișează tabelul pentru elevul specific
+            showStudentTable(records, studentName);
+        } else {
+            // Afișează butoanele pentru toți elevii
+            showStudentButtons(records);
+        }
+    });
+
+    function showStudentButtons(records) {
+        studentButtons.innerHTML = '';
+        studentTable.style.display = 'none';
+        studentButtons.style.display = 'block';
+
+        const uniqueStudents = [...new Set(records.map(r => r.nume))];
+
+        uniqueStudents.forEach(name => {
+            const button = document.createElement('button');
+            button.className = 'student-button';
+            button.textContent = name;
+            button.addEventListener('click', () => {
+                window.open(`/profesor/index.html?student=${encodeURIComponent(name)}`, '_blank');
+            });
+            studentButtons.appendChild(button);
+        });
+    }
+
+    let currentSelectedRecord = null;
+
+    function showStudentTable(records, name) {
+        studentButtons.style.display = 'none';
+        studentTable.style.display = 'block';
+        listaElevi.innerHTML = '';
+        listaDetalii.innerHTML = '';
+        detailTitle.style.display = 'none';
+        tabelDetalii.style.display = 'none';
+        currentSelectedRecord = null;
+
+        const studentRecords = records.filter(r => r.nume === name);
+
+        studentRecords.forEach(r => {
+            const categories = r.categories ? r.categories.join(', ') : (r.details ? [...new Set(r.details.map(d => d.category))].join(', ') : 'N/A');
+            const totalQuestions = (r.details && r.details.length) || r.total;
+            const tr = document.createElement('tr');
+            tr.className = 'clickable-row';
+            tr.innerHTML = `
+                <td>${r.nume}</td>
+                <td><b>${r.scor} / ${totalQuestions}</b></td>
+                <td>${categories}</td>
+                <td>${r.data}</td>
+            `;
+            tr.addEventListener('click', () => toggleDetail(r, tr));
+            listaElevi.appendChild(tr);
+        });
+    }
+
+    function toggleDetail(record, rowElement) {
+        if (currentSelectedRecord && currentSelectedRecord.id === record.id) {
+            // Dacă același rând, ascunde detaliile
+            hideDetails();
+        } else {
+            // Altfel, arată detaliile pentru acest rând
+            showDetail(record);
+            currentSelectedRecord = record;
+        }
+    }
+
+    function hideDetails() {
+        detailTitle.style.display = 'none';
+        tabelDetalii.style.display = 'none';
+        currentSelectedRecord = null;
+    }
+
+    function showDetail(record) {
+        const details = record.details || [];
+        listaDetalii.innerHTML = '';
+
+        if (details.length === 0) {
+            detailTitle.textContent = `Detalii pentru ${record.nume}: niciun detaliu disponibil`;
+            detailTitle.style.display = 'block';
+            tabelDetalii.style.display = 'none';
+            return;
+        }
+
+        detailTitle.textContent = `Detalii pentru ${record.nume} (${record.scor}/${record.total}, ${record.data})`;
+        detailTitle.style.display = 'block';
+
+        details.forEach((item, index) => {
+            const row = document.createElement('tr');
+            const imageButton = item.solutionImage ? 
+                `<button onclick="document.getElementById('modal-image').src='${item.solutionImage}'; document.getElementById('image-modal').style.display='flex';" style="padding: 8px 12px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">Vezi</button>` 
+                : '❌';
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${item.question}</td>
+                <td>${item.category}</td>
+                <td>${item.selected}</td>
+                <td>${item.correctAnswer}</td>
+                <td>${item.isCorrect ? '✅' : '❌'}</td>
+                <td>${item.hintUsed ? '✅' : '❌'}</td>
+                <td>${imageButton}</td>
+            `;
+            listaDetalii.appendChild(row);
+        });
+
+        tabelDetalii.style.display = 'table';
+    }
+</script>
 </body>
 </html>

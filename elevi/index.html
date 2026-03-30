@@ -2,10 +2,321 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>Redirecționare Elevi</title>
-    <meta http-equiv="refresh" content="0; url=/elevi.html" />
+    <title>Quiz Geometrie Clasa 8</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <p>Dacă nu ești redirecționat, <a href="/elevi.html">click aici</a> pentru testul elevilor.</p>
+
+<div class="card">
+    <h2>📐 Test Geometrie Clasa VIII</h2>
+    
+    <div id="nume-section">
+        <p>Introdu numele tău și alege categoria de întrebări:</p>
+        <input type="text" id="username" placeholder="Nume Prenume...">
+        <div id="category-selection" style="margin-top: 12px;"></div>
+        <button id="start-quiz" style="margin-top: 10px; padding: 10px 16px;">Începe Quiz</button>
+    </div>
+
+    <div id="quiz-section" style="display:none;">
+        <div id="question-container">
+            <p class="question" id="q-category"></p>
+            <p class="question" id="q-text"></p>
+            <button id="hint-btn" style="margin: 10px 0; padding: 8px 16px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; cursor: pointer;">Hint</button>
+            <div id="hint-text" style="display:none; margin: 10px 0; padding: 10px; background: #e8f4fd; border-left: 4px solid #667eea; font-style: italic;"></div>
+            <div class="options" id="q-options"></div>
+            <div id="solution-section" style="margin: 15px 0; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+                <p style="margin: 0 0 10px 0; font-weight: 600; color: #333;">📸 Încarcă rezolvarea (dacă este necesar):</p>
+                <input type="file" id="solution-image" accept="image/*" style="margin-bottom: 10px;">
+                <img id="preview-image" style="display:none; max-width: 100%; max-height: 300px; border-radius: 8px; margin-top: 10px;">
+            </div>
+            <div id="explanation" style="display:none; margin-top: 20px; padding: 15px; border-radius: 8px; font-size: 0.9em;"></div>
+        </div>
+    </div>
+
+    <div id="result-section" style="display:none;">
+        <h3>Felicitări!</h3>
+        <p id="final-score"></p>
+        <button id="restart-quiz" style="margin-top: 20px; padding: 15px 30px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; border-radius: 25px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;">Începe un nou test</button>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+    // Configurarea TA de la Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyB2hpvwgJTrEnr-oRRLy9Uf82Ta16OGBtc",
+        authDomain: "scoala-1c1e9.firebaseapp.com",
+        projectId: "scoala-1c1e9",
+        storageBucket: "scoala-1c1e9.firebasestorage.app",
+        messagingSenderId: "650085750607",
+        appId: "1:650085750607:web:cb8310463e98a85680173a",
+        measurementId: "G-01HV2DWBR7",
+        databaseURL: "https://scoala-1c1e9-default-rtdb.europe-west1.firebasedatabase.app"
+        };
+    let database = null;
+    if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+    } else {
+        console.warn('Firebase not loaded');
+    }
+
+    const questions = [
+        // Prismă
+        { category: "Prismă", q: "Aria laterală a unei prisme patrulatere regulate:", a: ["Pb * h", "Pb * ap / 2", "Ab * h", "2 * Pb"], correct: 0, hint: "Aria laterală este suma ariilor tuturor fețelor laterale.", explanations: ["Corect: Aria laterală se calculează ca perimetrul bazei înmulțit cu înălțimea.", "Greșit: Aceasta este formula pentru aria triunghiului.", "Greșit: Aceasta este aria totală.", "Greșit: 2 * Pb nu este formula standard."] },
+        { category: "Prismă", q: "Aria totală a unei prisme cu bază Ab și laterală Al:", a: ["Ab + Al", "2Ab + Al", "Ab + 2Al", "2Ab + 2Al"], correct: 2, hint: "Aria totală include aria celor două baze și aria laterală.", explanations: ["Greșit: Aria totală nu este doar aria bazei plus aria laterală, deoarece există două baze.", "Greșit: Aria totală este 2Ab + Al, nu 2Ab + Al în această formulare.", "Corect: Aria totală = aria bazei + aria laterală, dar pentru prismă cu două baze, este Ab + 2Al dacă Al este aria unei fețe laterale.", "Greșit: Aceasta ar fi dublarea ambelor, ceea ce nu este corect."] },
+        { category: "Prismă", q: "Volumul unei prisme este:", a: ["Ab * h", "(Ab * h)/2", "2 * Ab * h", "Ab + h"], correct: 0, hint: "Volumul se calculează ca aria bazei înmulțită cu înălțimea.", explanations: ["Corect: Volumul prismei = aria bazei × înălțime.", "Greșit: Aceasta este pentru piramidă.", "Greșit: Nu se dublează aria bazei.", "Greșit: Nu se adună aria bazei cu înălțimea."] },
+        { category: "Prismă", q: "Un prismă triunghiulară are înălțimea bazei 3 și aria bazei 6; volumul la h=10 este:", a: ["60", "30", "90", "120"], correct: 0, hint: "Folosește formula volumului prismei.", explanations: ["Corect: Volum = Ab × h = 6 × 10 = 60.", "Greșit: Nu se împarte la 2.", "Greșit: Nu se înmulțește cu 1.5.", "Greșit: Nu se dublează."] },
+
+        // Piramidă
+        { category: "Piramidă", q: "Volumul piramidei este:", a: ["Ab * h", "(Ab * h) / 3", "(Ab * h) / 2", "Pb * ap"], correct: 1, hint: "Piramidele au volumul împărțit la 3 față de prisme.", explanations: ["Greșit: Aceasta este pentru prismă.", "Corect: Volumul piramidei = (aria bazei × înălțime) / 3.", "Greșit: Nu se împarte la 2.", "Greșit: Nu se folosește perimetrul și apotema."] },
+        { category: "Piramidă", q: "Aria totală a unei piramide regulate cu bază Ab și arie laterală Al:", a: ["Ab + Al", "Ab + 2Al", "2Ab + Al", "Ab + Al/2"], correct: 0, hint: "Aria totală include aria bazei și aria laterală.", explanations: ["Corect: Aria totală = aria bazei + aria laterală.", "Greșit: Nu se dublează aria laterală.", "Greșit: Nu se dublează aria bazei.", "Greșit: Nu se împarte aria laterală la 2."] },
+        { category: "Piramidă", q: "Dacă Ab=16, h=9, volumul unei piramide este:", a: ["48", "144", "72", "16"], correct: 0, hint: "Aplică formula volumului piramidei.", explanations: ["Corect: Volum = (16 × 9) / 3 = 144 / 3 = 48.", "Greșit: Nu se înmulțește cu 9.", "Greșit: Nu se împarte la 2.", "Greșit: Nu este doar aria bazei."] },
+        { category: "Piramidă", q: "Într-o piramidă cu vârf pe verticală, sectoarea laterală este:", a: ["(Pb*h)/2", "Pb*h", "(Ab*h)/2", "2*Pb*h"], correct: 0, hint: "Aria laterală a piramidei regulate.", explanations: ["Corect: Aria laterală = (perimetrul bazei × apotema) / 2.", "Greșit: Nu se înmulțește direct.", "Greșit: Nu se folosește aria bazei.", "Greșit: Nu se dublează."] },
+
+        // Cub
+        { category: "Cub", q: "Diagonala cubului cu latura 'a' este:", a: ["a√2", "a√3", "3a", "a²"], correct: 1, hint: "Folosește teorema lui Pitagora în 3D.", explanations: ["Greșit: Aceasta este pentru pătrat.", "Corect: Diagonala spațială = a√3.", "Greșit: Nu se înmulțește cu 3.", "Greșit: Nu se ridică la pătrat."] },
+        { category: "Cub", q: "Aria totală a unui cub cu muchia a:", a: ["6a²", "4a²", "a²", "12a²"], correct: 0, hint: "Cubul are 6 fețe identice.", explanations: ["Corect: Aria totală = 6 × aria unei fețe = 6a².", "Greșit: Patrulaterul are 4 fețe.", "Greșit: Doar o față.", "Greșit: Nu se dublează."] },
+        { category: "Cub", q: "Volumul cubului cu latura a:", a: ["a³", "6a²", "a²", "3a³"], correct: 0, hint: "Volumul este latura la puterea a treia.", explanations: ["Corect: Volum = a × a × a = a³.", "Greșit: Aceasta este aria totală.", "Greșit: Doar aria unei fețe.", "Greșit: Nu se înmulțește cu 3."] },
+        { category: "Cub", q: "Dacă diagonala unui cub este d, latura e:", a: ["d/√3", "d/√2", "d/3", "d"], correct: 0, hint: "Rezolvă ecuația diagonalei.", explanations: ["Corect: Din d = a√3, a = d/√3.", "Greșit: Pentru pătrat.", "Greșit: Nu se împarte la 3.", "Greșit: Nu este egală cu d."] },
+
+        // Cilindru
+        { category: "Cilindru", q: "Volumul cilindrului este:", a: ["πr²h", "2πrh", "πrg", "πr²"], correct: 0, hint: "Volumul cilindrului este aria bazei înmulțită cu înălțimea.", explanations: ["Corect: Volum = πr² × h.", "Greșit: Aceasta este aria laterală.", "Greșit: Nu există 'g'.", "Greșit: Doar aria bazei."] },
+        { category: "Cilindru", q: "Aria totală a cilindrului cu raza r și înălțimea h:", a: ["2πr(r + h)", "πr²h", "πr² + 2πrh", "2πrh"], correct: 0, hint: "Aria totală include două baze și aria laterală.", explanations: ["Corect: Aria totală = 2πr(r + h).", "Greșit: Aceasta este volumul.", "Greșit: Aria totală nu este aria bazei plus aria laterală în această formă.", "Greșit: Doar aria laterală."] },
+        { category: "Cilindru", q: "Aria laterală a cilindrului este:", a: ["2πrh", "πr²h", "πr²", "4πrh"], correct: 0, hint: "Aria laterală este circumferința înmulțită cu înălțimea.", explanations: ["Corect: Aria laterală = 2πr × h.", "Greșit: Aceasta este volumul.", "Greșit: Doar aria bazei.", "Greșit: Nu se înmulțește cu 4."] },
+        { category: "Cilindru", q: "Dacă r=3, h=7, volumul cilindrului este:", a: ["63π", "21π", "126π", "9π"], correct: 0, hint: "Calculează πr²h.", explanations: ["Corect: Volum = π × 9 × 7 = 63π.", "Greșit: Nu se împarte la 3.", "Greșit: Nu se dublează.", "Greșit: Doar πr²."] },
+
+        // Con
+        { category: "Con", q: "Aria bazei conului (raza r):", a: ["πr²", "2πr²", "πr³", "2πr"], correct: 0, hint: "Aria bazei este aria unui cerc.", explanations: ["Corect: Aria bazei = πr².", "Greșit: Nu se dublează.", "Greșit: Nu se ridică la cub.", "Greșit: Aceasta este circumferința."] },
+        { category: "Con", q: "Volumul conului este:", a: ["(1/3)πr²h", "πr²h", "(2/3)πr²h", "πrh"], correct: 0, hint: "Volumul conului este o treime din volumul cilindrului.", explanations: ["Corect: Volum = (1/3)πr²h.", "Greșit: Aceasta este pentru cilindru.", "Greșit: Nu 2/3.", "Greșit: Lipsesc r²."] },
+        { category: "Con", q: "Aria laterală a conului cu înălțimea h și rază r:", a: ["πr√(r²+h²)", "2πrh", "πr²", "πrh"], correct: 0, hint: "Aria laterală implică generatoarea.", explanations: ["Corect: Aria laterală = πr × l, unde l = √(r²+h²).", "Greșit: Aceasta este pentru cilindru.", "Greșit: Doar aria bazei.", "Greșit: Lipsesc r."] },
+        { category: "Con", q: "Dacă r=5 și h=12, slant l este:", a: ["13", "12", "5", "10"], correct: 0, hint: "Generatoarea este ipotenuza triunghiului dreptunghic.", explanations: ["Corect: l = √(5² + 12²) = √(25+144) = √169 = 13.", "Greșit: Este doar h.", "Greșit: Este doar r.", "Greșit: Jumătate din sumă."] },
+
+        // Cerc
+        { category: "Cerc", q: "Lungimea cercului (circumferința) cu raza r:", a: ["πr", "2πr", "πr²", "2r"], correct: 1, hint: "Circumferința este 2πr.", explanations: ["Greșit: Lipseste 2.", "Corect: Circumferința = 2πr.", "Greșit: Aceasta este aria.", "Greșit: Nu se înmulțește cu π."] },
+        { category: "Cerc", q: "Aria cercului cu raza r este:", a: ["πr²", "2πr", "πr", "r²"], correct: 0, hint: "Aria cercului este πr².", explanations: ["Corect: Aria = πr².", "Greșit: Aceasta este circumferința.", "Greșit: Lipseste r.", "Greșit: Nu se înmulțește cu π."] },
+        { category: "Cerc", q: "Dacă diametrul este d, aria este:", a: ["(πd²)/4", "πd", "πd²", "d²"], correct: 0, hint: "Înlocuiește r = d/2.", explanations: ["Corect: Aria = π(d/2)² = (πd²)/4.", "Greșit: Aceasta nu este aria.", "Greșit: Lipseste /4.", "Greșit: Nu se înmulțește cu π."] },
+        { category: "Cerc", q: "Dacă circunferința este C, raza este:", a: ["C/(2π)", "C/π", "C/(4π)", "πC"], correct: 0, hint: "Din C = 2πr, r = C/(2π).", explanations: ["Corect: r = C / (2π).", "Greșit: Lipseste 2.", "Greșit: Nu se împarte la 4.", "Greșit: Nu se înmulțește cu π."] },
+
+        // Triunghi
+        { category: "Triunghi", q: "Aria triunghiului dreptunghic cu catete a și b:", a: ["(a*b)/2", "a*b", "(a+b)/2", "a²+b²"], correct: 0, hint: "Aria triunghiului este (baza × înălțimea)/2.", explanations: ["Corect: Aria = (a × b)/2.", "Greșit: Nu se împarte la 2.", "Greșit: Nu se adună.", "Greșit: Aceasta este teorema lui Pitagora."] },
+        { category: "Triunghi", q: "Aria unui triunghi echilateral cu latura a:", a: ["(√3/4)a²", "a²", "(1/2)a²", "(2/3)a²"], correct: 0, hint: "Folosește formula specială pentru triunghi echilateral.", explanations: ["Corect: Aria = (√3/4)a².", "Greșit: Nu se înmulțește cu √3/4.", "Greșit: Nu se împarte la 2.", "Greșit: Nu 2/3."] },
+        { category: "Triunghi", q: "Perimetrul unui triunghi cu laturi a, b, c este:", a: ["a+b+c", "(a+b+c)/2", "ab+bc+ca", "a+b"], correct: 0, hint: "Perimetrul este suma laturilor.", explanations: ["Corect: Perimetru = a + b + c.", "Greșit: Aceasta este semiperimetrul.", "Greșit: Nu se înmulțesc.", "Greșit: Lipseste c."] },
+        { category: "Triunghi", q: "Teorema lui Pitagora spune pentru triunghi dreptunghic:", a: ["a²+b²=c²", "a+b=c", "a²+b²=c", "a²+b²=2c²"], correct: 0, hint: "Teorema lui Pitagora leagă catetele și ipotenuza.", explanations: ["Corect: a² + b² = c².", "Greșit: Nu se adună.", "Greșit: Lipseste pătratul.", "Greșit: Nu se dublează."] },
+
+        // Paralelipiped
+        { category: "Paralelipiped", q: "Volumul paralelipipedului dreptunghic:", a: ["l*w*h", "(l*w*h)/3", "2*l*w*h", "l+w+h"], correct: 0, hint: "Volumul este produsul celor trei dimensiuni.", explanations: ["Corect: Volum = lungime × lățime × înălțime.", "Greșit: Aceasta este pentru piramidă.", "Greșit: Nu se dublează.", "Greșit: Nu se adună."] },
+        { category: "Paralelipiped", q: "Aria totală a unui paralelipiped dreptunghic:", a: ["2(lw+lh+wh)", "lw+lh+wh", "4(lw+lh+wh)", "lwh"], correct: 0, hint: "Aria totală include toate cele 6 fețe.", explanations: ["Corect: Aria totală = 2(lw + lh + wh).", "Greșit: Lipseste 2.", "Greșit: Nu se înmulțește cu 4.", "Greșit: Aceasta este volumul."] },
+        { category: "Paralelipiped", q: "Dacă l=2, w=3, h=4, volumul este:", a: ["24", "20", "18", "12"], correct: 0, hint: "Calculează 2 × 3 × 4.", explanations: ["Corect: Volum = 2 × 3 × 4 = 24.", "Greșit: Nu 2×3×3.", "Greșit: Nu 2×3×3.", "Greșit: Nu 2×3×2."] },
+        { category: "Paralelipiped", q: "Diagonala unui paralelipiped dreptunghic:", a: ["√(l²+w²+h²)", "l+w+h", "√(lw+lh+wh)", "l²+w²+h²"], correct: 0, hint: "Folosește teorema lui Pitagora în 3D.", explanations: ["Corect: Diagonala = √(l² + w² + h²).", "Greșit: Nu se adună.", "Greșit: Nu se înmulțesc.", "Greșit: Nu se ridică la pătrat."] },
+
+        // Sferă
+        { category: "Sferă", q: "Aria totală a unei sfere cu raza r:", a: ["4πr²", "2πr²", "4πr", "πr²"], correct: 0, hint: "Aria sferei este 4πr².", explanations: ["Corect: Aria totală = 4πr².", "Greșit: Lipseste 4.", "Greșit: Nu se înmulțește cu r.", "Greșit: Aceasta este aria cercului."] },
+        { category: "Sferă", q: "Volumul sferei este:", a: ["(4/3)πr³", "πr²", "(2/3)πr³", "4πr²"], correct: 0, hint: "Volumul sferei este (4/3)πr³.", explanations: ["Corect: Volum = (4/3)πr³.", "Greșit: Aceasta este aria.", "Greșit: Nu 2/3.", "Greșit: Nu se înmulțește cu 4."] },
+        { category: "Sferă", q: "Dacă r=3, volumul sferei este:", a: ["36π", "36π?","113.097...","27π"], correct: 2, hint: "Calculează (4/3)πr³.", explanations: ["Greșit: (4/3)π × 27 = 36π, dar nu este exact.", "Greșit: La fel.", "Corect: (4/3)π × 27 = 36π, dar calculul exact este 36π.", "Greșit: π × 27 = 27π."] },
+        { category: "Sferă", q: "Dacă diametrul este d, aria sferei este:", a: ["πd²", "πd³", "πd", "(πd²)/4"], correct: 0, hint: "Înlocuiește r = d/2.", explanations: ["Corect: Aria = 4π(d/2)² = πd².", "Greșit: Nu se ridică la cub.", "Greșit: Lipseste d.", "Greșit: Aceasta este pentru cerc."] }
+    ];
+
+    const allCategories = [...new Set(questions.map(item => item.category))];
+    let currentQ = 0;
+    let score = 0;
+    let filteredQuestions = [];
+    const answers = [];
+    let selectedCategories = [];
+    let hintUsedForCurrentQuestion = false;
+    let currentQuestionSolution = null;
+
+    function renderCategorySelection() {
+        const container = document.getElementById('category-selection');
+        container.innerHTML = '';
+        container.innerHTML = `<small>Selectează cel puțin o categorie:</small><br>`;
+        allCategories.forEach(cat => {
+            const id = `cat-${cat}`;
+            const label = document.createElement('label');
+            label.className = 'category-label';
+            label.innerHTML = `<input type="checkbox" value="${cat}" id="${id}" /> ${cat}`;
+            const input = label.querySelector('input');
+            input.addEventListener('change', () => {
+                if (input.checked) {
+                    label.classList.add('selected');
+                } else {
+                    label.classList.remove('selected');
+                }
+            });
+            container.appendChild(label);
+        });
+    }
+
+    document.getElementById('start-quiz').addEventListener('click', () => {
+        const user = document.getElementById('username').value.trim();
+        if (!user) {
+            alert('Completează numele elevului.');
+            return;
+        }
+
+        selectedCategories = Array.from(document.querySelectorAll('#category-selection input[type="checkbox"]:checked')).map(el => el.value);
+        if (selectedCategories.length === 0) {
+            alert('Selectează cel puțin o categorie.');
+            return;
+        }
+
+        filteredQuestions = questions.filter(q => selectedCategories.includes(q.category));
+        if (filteredQuestions.length === 0) {
+            alert('Nu există întrebări în categoria selectată.');
+            return;
+        }
+
+        currentQ = 0;
+        score = 0;
+        answers.length = 0;
+
+        document.getElementById('nume-section').style.display = 'none';
+        document.getElementById('quiz-section').style.display = 'block';
+        showQuestion();
+    });
+
+    document.getElementById('restart-quiz').addEventListener('click', () => {
+        // Reset all sections
+        document.getElementById('result-section').style.display = 'none';
+        document.getElementById('quiz-section').style.display = 'none';
+        document.getElementById('nume-section').style.display = 'block';
+        
+        // Reset variables
+        currentQ = 0;
+        score = 0;
+        filteredQuestions = [];
+        answers.length = 0;
+        selectedCategories = [];
+        
+        // Reset form (keep name, uncheck categories)
+        const checkboxes = document.querySelectorAll('#category-selection input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            cb.checked = false;
+            cb.parentElement.classList.remove('selected');
+        });
+        renderCategorySelection(); // Re-render categories
+    });
+
+    function showQuestion() {
+        if (currentQ < filteredQuestions.length) {
+            const q = filteredQuestions[currentQ];
+            document.getElementById('q-category').innerText = `Categorie: ${q.category}`;
+            document.getElementById('q-text').innerText = q.q;
+            document.getElementById('hint-text').style.display = 'none';
+            document.getElementById('hint-btn').innerText = 'Hint';
+            document.getElementById('explanation').style.display = 'none';
+            hintUsedForCurrentQuestion = false;
+            currentQuestionSolution = null;
+            document.getElementById('solution-image').value = '';
+            document.getElementById('preview-image').style.display = 'none';
+            const optionsDiv = document.getElementById('q-options');
+            optionsDiv.innerHTML = "";
+            q.a.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(btn);
+            });
+        } else {
+            finishQuiz();
+        }
+    }
+
+    function checkAnswer(idx) {
+        const q = filteredQuestions[currentQ];
+        const isCorrect = idx === q.correct;
+        if (isCorrect) score++;
+
+        // Disable all buttons and highlight
+        const buttons = document.querySelectorAll('#q-options button');
+        buttons.forEach((btn, i) => {
+            btn.disabled = true;
+            if (i === q.correct) {
+                btn.style.background = '#4CAF50'; // Green for correct
+                btn.style.color = 'white';
+            } else if (i === idx && !isCorrect) {
+                btn.style.background = '#f44336'; // Red for wrong selected
+                btn.style.color = 'white';
+            }
+        });
+
+        // Show explanation
+        const explanationDiv = document.getElementById('explanation');
+        explanationDiv.innerText = q.explanations[idx];
+        explanationDiv.style.display = 'block';
+        explanationDiv.style.background = isCorrect ? '#e8f5e8' : '#ffebee';
+        explanationDiv.style.borderLeft = `4px solid ${isCorrect ? '#4CAF50' : '#f44336'}`;
+
+        // Save answer with hint usage and solution image
+        answers.push({
+            question: q.q,
+            category: q.category,
+            selected: q.a[idx],
+            correctAnswer: q.a[q.correct],
+            isCorrect: isCorrect,
+            hintUsed: hintUsedForCurrentQuestion,
+            solutionImage: currentQuestionSolution
+        });
+
+        // Auto advance after 3 seconds
+        setTimeout(() => {
+            currentQ++;
+            hintUsedForCurrentQuestion = false;
+            showQuestion();
+        }, 3000);
+    }
+
+    function finishQuiz() {
+        document.getElementById('quiz-section').style.display = 'none';
+        document.getElementById('result-section').style.display = 'block';
+        document.getElementById('final-score').innerText = `Ai obținut ${score} puncte din ${filteredQuestions.length}.`;
+        
+        const nume = document.getElementById('username').value;
+        if (database) {
+            // Salvare în Firebase (push pentru istoricul execuțiilor)
+            database.ref('scoruri').push({
+                nume: nume,
+                scor: score,
+                total: filteredQuestions.length,
+                data: new Date().toLocaleString(),
+                categories: [...new Set(answers.map(a => a.category))],
+                details: answers
+            });
+        } else {
+            alert('Rezultatele nu pot fi salvate deoarece Firebase nu este disponibil.');
+        }
+    }
+
+    document.getElementById('solution-image').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                currentQuestionSolution = event.target.result;
+                const preview = document.getElementById('preview-image');
+                preview.src = currentQuestionSolution;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('hint-btn').addEventListener('click', () => {
+        const hintText = document.getElementById('hint-text');
+        const hintBtn = document.getElementById('hint-btn');
+        if (hintText.style.display === 'none') {
+            hintText.innerText = filteredQuestions[currentQ].hint;
+            hintText.style.display = 'block';
+            hintBtn.innerText = 'Ascunde Hint';
+            hintUsedForCurrentQuestion = true;
+        } else {
+            hintText.style.display = 'none';
+            hintBtn.innerText = 'Hint';
+        }
+    });
+    renderCategorySelection();
+</script>
 </body>
 </html>

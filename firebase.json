@@ -5,8 +5,8 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "rewrites": [
-      { "source": "/elevi", "destination": "/elevi.html" },
-      { "source": "/profesor", "destination": "/profesor.html" }
+      { "source": "/elevi{,/**}", "destination": "/elevi/index.html" },
+      { "source": "/profesor{,/**}", "destination": "/profesor/index.html" }
     ]
   }
 }
