@@ -14,6 +14,7 @@ const database = firebase.database();
 
 // Determine base path for links
 const basePath = window.location.hostname.includes('firebaseapp.com') ? '' : '/AplicatieIntrebari';
+console.log('basePath:', basePath);
 
 const listaElevi = document.getElementById('lista-elevi');
 const listaDetalii = document.getElementById('lista-detalii');
