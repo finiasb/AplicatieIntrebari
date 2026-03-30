@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Determine base path for links
-const basePath = window.location.hostname === 'finiasb.github.io' ? '/AplicatieIntrebari' : '';
+const basePath = '/AplicatieIntrebari';
 
 const listaElevi = document.getElementById('lista-elevi');
 const listaDetalii = document.getElementById('lista-detalii');
