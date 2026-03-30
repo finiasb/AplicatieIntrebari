@@ -12,6 +12,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
+// Determine base path for links
+const basePath = window.location.hostname === 'finiasb.github.io' ? '/AplicatieIntrebari' : '';
+
 const listaElevi = document.getElementById('lista-elevi');
 const listaDetalii = document.getElementById('lista-detalii');
 const detailTitle = document.getElementById('detail-title');
@@ -57,7 +60,7 @@ function showStudentButtons(records) {
         button.className = 'student-button';
         button.textContent = name;
         button.addEventListener('click', () => {
-            window.open(`/profesor/index.html?student=${encodeURIComponent(name)}`, '_blank');
+            window.open(`${basePath}/profesor/index.html?student=${encodeURIComponent(name)}`, '_blank');
         });
         studentButtons.appendChild(button);
     });
@@ -80,7 +83,7 @@ function showStudentTable(records, name) {
     backButton.className = 'student-button back-button';
     backButton.style.marginBottom = '20px';
     backButton.addEventListener('click', () => {
-        window.location.href = '/profesor';
+        window.location.href = `${basePath}/profesor`;
     });
     // Remove existing back button if any
     const existingBack = studentTable.querySelector('.back-button');
