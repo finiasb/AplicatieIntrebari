@@ -55,22 +55,74 @@ const questions = [
     { category: "Cerc", q: "Dacă circunferința este C, raza este:", a: ["C/(2π)", "C/π", "C/(4π)", "πC"], correct: 0, hint: "Din C = 2πr, r = C/(2π).", explanations: ["Corect: r = C / (2π).", "Greșit: Lipseste 2.", "Greșit: Nu se împarte la 4.", "Greșit: Nu se înmulțește cu π."] },
 
     // Triunghi
-    { category: "Triunghi", q: "Aria triunghiului dreptunghic cu catete a și b:", a: ["(a*b)/2", "a*b", "(a+b)/2", "a²+b²"], correct: 0, hint: "Aria triunghiului este (baza × înălțimea)/2.", explanations: ["Corect: Aria = (a × b)/2.", "Greșit: Nu se împarte la 2.", "Greșit: Nu se adună.", "Greșit: Aceasta este teorema lui Pitagora."] },
-    { category: "Triunghi", q: "Aria unui triunghi echilateral cu latura a:", a: ["(√3/4)a²", "a²", "(1/2)a²", "(2/3)a²"], correct: 0, hint: "Folosește formula specială pentru triunghi echilateral.", explanations: ["Corect: Aria = (√3/4)a².", "Greșit: Nu se înmulțește cu √3/4.", "Greșit: Nu se împarte la 2.", "Greșit: Nu 2/3."] },
-    { category: "Triunghi", q: "Perimetrul unui triunghi cu laturi a, b, c este:", a: ["a+b+c", "(a+b+c)/2", "ab+bc+ca", "a+b"], correct: 0, hint: "Perimetrul este suma laturilor.", explanations: ["Corect: Perimetru = a + b + c.", "Greșit: Aceasta este semiperimetrul.", "Greșit: Nu se înmulțesc.", "Greșit: Lipseste c."] },
-    { category: "Triunghi", q: "Teorema lui Pitagora spune pentru triunghi dreptunghic:", a: ["a²+b²=c²", "a+b=c", "a²+b²=c", "a²+b²=2c²"], correct: 0, hint: "Teorema lui Pitagora leagă catetele și ipotenuza.", explanations: ["Corect: a² + b² = c².", "Greșit: Nu se adună.", "Greșit: Lipseste pătratul.", "Greșit: Nu se dublează."] },
+    { category: "Triunghi", q: "Care este formula pentru aria triunghiului?", a: ["baza * înălțimea", "(baza + înălțimea) / 2", "(baza * înălțimea) / 2", "baza² + înălțimea²"], correct: 2, hint: "Aria se calculează ca produsul bazei cu înălțimea împărțit la 2.", explanations: ["Greșit: Nu se împarte la 2.", "Greșit: Nu se adună.", "Corect: Aria = (baza × înălțimea) / 2.", "Greșit: Nu se ridică la pătrat."] },
+    { category: "Triunghi", q: "Care este formula pentru perimetrul triunghiului?", a: ["(a + b + c) / 2", "a + b + c", "a * b * c", "a + b"], correct: 1, hint: "Perimetrul este suma tuturor laturilor.", explanations: ["Greșit: Aceasta este semiperimetrul.", "Corect: Perimetru = a + b + c.", "Greșit: Nu se înmulțesc.", "Greșit: Lipseste c."] },
+    { category: "Triunghi", q: "Care este teorema lui Pitagora pentru triunghi dreptunghic?", a: ["a² + b² = c", "a + b = c", "a² + b² = 2c²", "a² + b² = c²"], correct: 3, hint: "Teorema lui Pitagora leagă catetele și ipotenuza.", explanations: ["Greșit: Lipseste pătratul.", "Greșit: Nu se adună.", "Greșit: Nu se dublează.", "Corect: a² + b² = c²."] },
+    { category: "Triunghi", q: "Care este legea sinusurilor?", a: ["a + sinA = b + sinB", "a / sinA = b / sinB = c / sinC", "a * sinA = b * sinB", "a² / sinA = b² / sinB"], correct: 1, hint: "Legea sinusurilor leagă laturile cu sinusurile unghiurilor opuse.", explanations: ["Greșit: Nu se adună.", "Corect: a / sinA = b / sinB = c / sinC.", "Greșit: Nu se înmulțesc.", "Greșit: Nu se ridică la pătrat."] },
+    { category: "Triunghi", q: "Care este legea cosinusurilor?", a: ["c² = a² + b² - ab cosC", "c = a + b - 2ab cosC", "c² = a² + b² - 2ab", "c² = a² + b² - 2ab cosC"], correct: 3, hint: "Legea cosinusurilor generalizează teorema lui Pitagora.", explanations: ["Greșit: Lipseste 2.", "Greșit: Nu se ridică la pătrat.", "Greșit: Lipseste cosC.", "Corect: c² = a² + b² - 2ab cosC."] },
+    { category: "Triunghi", q: "Care este formula lui Heron pentru aria triunghiului?", a: ["√[s(a+b+c)]", "√[a(a-b)(a-c)]", "s(s-a)(s-b)(s-c)", "√[s(s-a)(s-b)(s-c)]"], correct: 3, hint: "Formula lui Heron folosește semiperimetrul s.", explanations: ["Greșit: Nu se înmulțesc cu s.", "Greșit: Nu folosește s.", "Greșit: Lipseste rădăcina pătrată.", "Corect: Aria = √[s(s-a)(s-b)(s-c)]."] },
+    { category: "Triunghi", q: "Calculează aria unui triunghi cu baza 6 cm și înălțimea 4 cm.", a: ["24 cm²", "12 cm²", "10 cm²", "18 cm²"], correct: 1, hint: "Folosește formula ariei.", explanations: ["Greșit: Nu împarți la 2.", "Corect: (6*4)/2 = 12.", "Greșit: 6*2.", "Greșit: 6*3."] },
+    { category: "Triunghi", q: "Calculează perimetrul unui triunghi cu laturile 3, 4, 5 cm.", a: ["15 cm", "7 cm", "9 cm", "12 cm"], correct: 3, hint: "Perimetrul este suma laturilor.", explanations: ["Greșit: 3*5.", "Greșit: Nu aduni toate.", "Greșit: 3+4=7.", "Corect: 3+4+5=12."] },
+    { category: "Triunghi", q: "Într-un triunghi dreptunghic, cateta1=5, cateta2=12. Calculează ipotenuza.", a: ["15", "17", "13", "10"], correct: 2, hint: "Folosește teorema lui Pitagora.", explanations: ["Greșit: 5*3.", "Greșit: 5+12.", "Corect: √(25+144)=13.", "Greșit: 12-2."] },
+    { category: "Triunghi", q: "Într-un triunghi, A=30°, a=10. Calculează b dacă B=60°.", a: ["5", "10", "20", "5√3"], correct: 3, hint: "Folosește legea sinusurilor.", explanations: ["Greșit: Jumătate.", "Greșit: Egal cu a.", "Greșit: Dublu.", "Corect: b = a * sinB / sinA = 10 * sin60 / sin30 = 10 * (√3/2) / (1/2) = 5√3."] },
+    { category: "Triunghi", q: "Calculează aria unui triunghi echilateral cu latura 10 cm.", a: ["100 cm²", "25√3 cm²", "50 cm²", "25 cm²"], correct: 1, hint: "Aria = (√3/4) a².", explanations: ["Greșit: a².", "Corect: (√3/4)*100 = 25√3.", "Greșit: Nu √3.", "Greșit: /4 fără √3."] },
+    { category: "Triunghi", q: "Într-un triunghi, a=5, b=7, C=90°. Calculează c.", a: ["√24", "12", "√50", "√74"], correct: 3, hint: "Legea cosinusurilor.", explanations: ["Greșit: √(25+49).", "Greșit: 5+7.", "Greșit: √(25*49/10).", "Corect: c²=25+49-2*5*7*0=74."] },
+    { category: "Triunghi", q: "Calculează perimetrul unui triunghi isoscel cu latura egală 6 cm și baza 4 cm.", a: ["10 cm", "12 cm", "16 cm", "14 cm"], correct: 2, hint: "Perimetru = 6 + 6 + 4.", explanations: ["Greșit: 6+4.", "Greșit: 6+6.", "Corect: 6+6+4=16.", "Greșit: 6*2+4."] },
+    { category: "Triunghi", q: "Într-un triunghi dreptunghic, ipotenuza=13, o catetă=5. Calculează cealaltă catetă.", a: ["10", "8", "15", "12"], correct: 3, hint: "Teorema lui Pitagora.", explanations: ["Greșit: (13+5)/2.", "Greșit: 13-5.", "Greșit: 13-5+2.", "Corect: √(169-25)=12."] },
+    { category: "Triunghi", q: "Calculează aria unui triunghi cu laturile 5,6,7 folosind Heron.", a: ["12 cm²", "6 cm²", "√30 cm²", "√6 cm²"], correct: 3, hint: "s=(5+6+7)/2=9, aria=√[9*4*3*2]=√216=6√6.", explanations: ["Greșit: 6*2.", "Greșit: Fără rădăcină.", "Greșit: √(9*4*3*2) greșit.", "Corect: √[9(9-5)(9-6)(9-7)]=√[9*4*3*2]=√216=6√6."] },
+    { category: "Triunghi", q: "Într-un triunghi, A=30°, B=60°, c=10. Calculează a.", a: ["5√3", "10", "20", "5"], correct: 3, hint: "Legea sinusurilor.", explanations: ["Greșit: sin60.", "Greșit: Egal cu c.", "Greșit: Dublu.", "Corect: a = c * sinA / sinC, dar C=90°, sinC=1, a=10*sin30=5."] },
+    { category: "Triunghi", q: "Calculează aria unui triunghi cu baza 8 cm și înălțimea 5 cm.", a: ["13 cm²", "40 cm²", "20 cm²", "26 cm²"], correct: 2, hint: "Aria = (8*5)/2.", explanations: ["Greșit: 8+5.", "Greșit: Nu împarți.", "Corect: 20.", "Greșit: 8*5/2 dar greșit."] },
+    { category: "Triunghi", q: "Într-un triunghi dreptunghic, catete 3 și 4. Ipotenuza?", a: ["6", "7", "8", "5"], correct: 3, hint: "Pitagora.", explanations: ["Greșit: 3*2.", "Greșit: 3+4.", "Greșit: 4*2.", "Corect: √(9+16)=5."] },
+    { category: "Triunghi", q: "Perimetrul unui triunghi cu laturi 7,8,9.", a: ["18", "16", "21", "24"], correct: 3, hint: "Suma.", explanations: ["Greșit: 7+9.", "Greșit: 7+8.", "Greșit: 7*3.", "Corect: 7+8+9=24."] },
+    { category: "Triunghi", q: "Aria unui triunghi echilateral cu latura 4.", a: ["16", "8", "2√3", "4√3"], correct: 3, hint: " (√3/4)*16 = 4√3.", explanations: ["Greșit: 4².", "Greșit: Fără √3.", "Greșit: /2.", "Corect: 4√3."] },
 
     // Paralelipiped
-    { category: "Paralelipiped", q: "Volumul paralelipipedului dreptunghic:", a: ["l*w*h", "(l*w*h)/3", "2*l*w*h", "l+w+h"], correct: 0, hint: "Volumul este produsul celor trei dimensiuni.", explanations: ["Corect: Volum = lungime × lățime × înălțime.", "Greșit: Aceasta este pentru piramidă.", "Greșit: Nu se dublează.", "Greșit: Nu se adună."] },
-    { category: "Paralelipiped", q: "Aria totală a unui paralelipiped dreptunghic:", a: ["2(lw+lh+wh)", "lw+lh+wh", "4(lw+lh+wh)", "lwh"], correct: 0, hint: "Aria totală include toate cele 6 fețe.", explanations: ["Corect: Aria totală = 2(lw + lh + wh).", "Greșit: Lipseste 2.", "Greșit: Nu se înmulțește cu 4.", "Greșit: Aceasta este volumul."] },
-    { category: "Paralelipiped", q: "Dacă l=2, w=3, h=4, volumul este:", a: ["24", "20", "18", "12"], correct: 0, hint: "Calculează 2 × 3 × 4.", explanations: ["Corect: Volum = 2 × 3 × 4 = 24.", "Greșit: Nu 2×3×3.", "Greșit: Nu 2×3×3.", "Greșit: Nu 2×3×2."] },
+    { category: "Paralelipiped", q: "Dacă aria totală este 94 și l=3, w=4, ce este h?", a: ["4", "3", "6", "5"], correct: 3, hint: "Aria totală = 2(lw + lh + wh), 94 = 2(12 + 3h + 4h), 47 = 12 + 7h, h=5.", explanations: ["Greșit: 47-12=35, 35/7=5.", "Greșit: 47/12.", "Greșit: 47/7.", "Corect: h=5."] },
     { category: "Paralelipiped", q: "Diagonala unui paralelipiped dreptunghic:", a: ["√(l²+w²+h²)", "l+w+h", "√(lw+lh+wh)", "l²+w²+h²"], correct: 0, hint: "Folosește teorema lui Pitagora în 3D.", explanations: ["Corect: Diagonala = √(l² + w² + h²).", "Greșit: Nu se adună.", "Greșit: Nu se înmulțesc.", "Greșit: Nu se ridică la pătrat."] },
+    { category: "Paralelipiped", q: "Calculează aria totală cu l=3, w=4, h=5.", a: ["70", "47", "94", "94?"], correct: 2, hint: "Aria totală = 2(3×4 + 3×5 + 4×5).", explanations: ["Greșit: Fără 2.", "Greșit: /2.", "Corect: 2(12+15+20)=2×47=94.", "Greșit: La fel."] },
+    { category: "Paralelipiped", q: "Numărul de vârfuri al unui paralelipiped:", a: ["6", "8", "12", "4"], correct: 1, hint: "Un paralelipiped are 8 vârfuri.", explanations: ["Greșit: 6 fețe.", "Corect: Paralelipipedul are 8 vârfuri.", "Greșit: 12 muchii.", "Greșit: Nu are 4 vârfuri."] },
+    { category: "Paralelipiped", q: "Calculează volumul unui paralelipiped cu l=6, w=5, h=4.", a: ["100", "140", "120", "80"], correct: 2, hint: "Volum = l × w × h.", explanations: ["Greșit: 6×5×4 greșit.", "Greșit: 6×5×4 +20.", "Corect: 6 × 5 × 4 = 120.", "Greșit: 6×5×4 -40."] },
+    { category: "Paralelipiped", q: "Dacă volumul este 120 și l=6, w=5, ce este h?", a: ["5", "3", "4", "6"], correct: 2, hint: "h = volum / (l × w).", explanations: ["Greșit: 120/6.", "Greșit: 120/40.", "Corect: 120 / (6×5) = 120/30 = 4.", "Greșit: 120/5."] },
+    { category: "Paralelipiped", q: "Aria laterală a unui paralelipiped dreptunghic:", a: ["2h(l+w)", "h(l+w)", "4h(l+w)", "2(lw+lh+wh)"], correct: 0, hint: "Aria laterală exclude cele două baze.", explanations: ["Corect: Aria laterală = 2h(l + w).", "Greșit: Lipseste 2.", "Greșit: Nu se înmulțește cu 4.", "Greșit: Aceasta este aria totală."] },
+    { category: "Paralelipiped", q: "Diagonala feței unui paralelipiped dreptunghic:", a: ["l+w", "√(l²+w²)", "l²+w²", "√(l²+w²+h²)"], correct: 1, hint: "Diagonala feței este în planul feței.", explanations: ["Greșit: Nu se ridică la pătrat.", "Corect: Diagonala feței = √(l² + w²).", "Greșit: Nu se ridică la pătrat.", "Greșit: Include h."] },
+    { category: "Paralelipiped", q: "Numărul de muchii al unui paralelipiped:", a: ["8", "12", "4", "6"], correct: 1, hint: "Un paralelipiped are 12 muchii.", explanations: ["Greșit: 8 vârfuri.", "Corect: Paralelipipedul are 12 muchii.", "Greșit: Nu are 4 muchii.", "Greșit: 6 fețe."] },
+    { category: "Paralelipiped", q: "Calculează diagonala feței cu l=5, w=12.", a: ["15", "17", "10", "13"], correct: 3, hint: "Diagonala feței = √(5² + 12²).", explanations: ["Greșit: 5+12.", "Greșit: √(25+144)+2.", "Greșit: 12-2.", "Corect: √(25+144)=√169=13."] },
+    { category: "Paralelipiped", q: "Calculează aria totală cu l=3, w=4, h=5.", a: ["70", "47", "94", "94?"], correct: 2, hint: "Aria totală = 2(3×4 + 3×5 + 4×5).", explanations: ["Greșit: Fără 2.", "Greșit: /2.", "Corect: 2(12+15+20)=2×47=94.", "Greșit: La fel."] },
+    { category: "Paralelipiped", q: "Aria totală a unui paralelipiped dreptunghic:", a: ["2(lw+lh+wh)", "lw+lh+wh", "4(lw+lh+wh)", "lwh"], correct: 0, hint: "Aria totală include toate cele 6 fețe.", explanations: ["Corect: Aria totală = 2(lw + lh + wh).", "Greșit: Lipseste 2.", "Greșit: Nu se înmulțește cu 4.", "Greșit: Aceasta este volumul."] },
+    { category: "Paralelipiped", q: "Numărul de fețe al unui paralelipiped:", a: ["8", "6", "4", "12"], correct: 1, hint: "Un paralelipiped are 6 fețe.", explanations: ["Greșit: 8 vârfuri.", "Corect: Paralelipipedul are 6 fețe.", "Greșit: Nu are 4 fețe.", "Greșit: 12 muchii."] },
+    { category: "Paralelipiped", q: "Calculează aria laterală cu l=2, w=3, h=4.", a: ["28", "24", "40", "32"], correct: 2, hint: "Aria laterală = 2h(l + w).", explanations: ["Greșit: 2×4×3.", "Greșit: 2×4×3.", "Corect: 2×4×(2+3)=40.", "Greșit: 2×4×4."] },
+    { category: "Paralelipiped", q: "Calculează aria totală cu l=3, w=4, h=5.", a: ["70", "47", "94", "94?"], correct: 2, hint: "Aria totală = 2(3×4 + 3×5 + 4×5).", explanations: ["Greșit: Fără 2.", "Greșit: /2.", "Corect: 2(12+15+20)=2×47=94.", "Greșit: La fel."] },
+    { category: "Paralelipiped", q: "Dacă aria laterală este Al și înălțimea h, perimetrul bazei este:", a: ["Al/h", "2Al/h", "Al/(2h)", "4Al/h"], correct: 1, hint: "Aria laterală = perimetrul bazei × h.", explanations: ["Greșit: Lipseste 2.", "Corect: Perimetrul bazei = Al / h.", "Greșit: Nu se împarte la 2.", "Greșit: Nu se înmulțește cu 4."] },
+    { category: "Paralelipiped", q: "Volumul paralelipipedului dreptunghic:", a: ["l*w*h", "(l*w*h)/3", "2*l*w*h", "l+w+h"], correct: 0, hint: "Volumul este produsul celor trei dimensiuni.", explanations: ["Corect: Volum = lungime × lățime × înălțime.", "Greșit: Aceasta este pentru piramidă.", "Greșit: Nu se dublează.", "Greșit: Nu se adună."] },
+    { category: "Paralelipiped", q: "Calculează diagonala cu l=3, w=4, h=12.", a: ["15", "10", "13", "17"], correct: 2, hint: "Diagonala = √(3²+4²+12²).", explanations: ["Greșit: 3+4+12.", "Greșit: 12-2.", "Corect: √(9+16+144)=√169=13.", "Greșit: √(9+16+144)+2."] },
+    { category: "Paralelipiped", q: "Volumul unui cub cu latura 5.", a: ["100", "75", "150", "125"], correct: 3, hint: "Volum = a³.", explanations: ["Greșit: 5².", "Greșit: 5³ -50.", "Greșit: 5³ +25.", "Corect: 5³=125."] },
+    { category: "Paralelipiped", q: "Dacă diagonala spațială este 13 și l=3, w=4, ce este h?", a: ["10", "13", "11", "12"], correct: 3, hint: "13² = 3² + 4² + h², 169 = 9+16 + h², h²=144, h=12.", explanations: ["Greșit: 13-3.", "Greșit: 13.", "Greșit: 13-2.", "Corect: h=12."] },
+    { category: "Paralelipiped", q: "Dacă l=2, w=3, h=4, volumul este:", a: ["24", "20", "18", "12"], correct: 0, hint: "Calculează 2 × 3 × 4.", explanations: ["Corect: Volum = 2 × 3 × 4 = 24.", "Greșit: Nu 2×3×3.", "Greșit: Nu 2×3×3.", "Greșit: Nu 2×3×2."] },
+    { category: "Paralelipiped", q: "Aria totală a unui cub cu latura 3.", a: ["36", "27", "48", "54"], correct: 3, hint: "Aria totală = 6a².", explanations: ["Greșit: 4×9.", "Greșit: 3³.", "Greșit: 6×8.", "Corect: 6×9=54."] },
 
-    // Sferă
-    { category: "Sferă", q: "Aria totală a unei sfere cu raza r:", a: ["4πr²", "2πr²", "4πr", "πr²"], correct: 0, hint: "Aria sferei este 4πr².", explanations: ["Corect: Aria totală = 4πr².", "Greșit: Lipseste 4.", "Greșit: Nu se înmulțește cu r.", "Greșit: Aceasta este aria cercului."] },
-    { category: "Sferă", q: "Volumul sferei este:", a: ["(4/3)πr³", "πr²", "(2/3)πr³", "4πr²"], correct: 0, hint: "Volumul sferei este (4/3)πr³.", explanations: ["Corect: Volum = (4/3)πr³.", "Greșit: Aceasta este aria.", "Greșit: Nu 2/3.", "Greșit: Nu se înmulțește cu 4."] },
-    { category: "Sferă", q: "Dacă r=3, volumul sferei este:", a: ["36π", "36π?","113.097...","27π"], correct: 2, hint: "Calculează (4/3)πr³.", explanations: ["Greșit: (4/3)π × 27 = 36π, dar nu este exact.", "Greșit: La fel.", "Corect: (4/3)π × 27 = 36π, dar calculul exact este 36π.", "Greșit: π × 27 = 27π."] },
-    { category: "Sferă", q: "Dacă diametrul este d, aria sferei este:", a: ["πd²", "πd³", "πd", "(πd²)/4"], correct: 0, hint: "Înlocuiește r = d/2.", explanations: ["Corect: Aria = 4π(d/2)² = πd².", "Greșit: Nu se ridică la cub.", "Greșit: Lipseste d.", "Greșit: Aceasta este pentru cerc."] }
+
+    // Formule trigonometrice
+    { category: "Formule trigonometrice", q: "cos(A+B) =", a: ["cosAcosB + sinAsinB", "cosAcosB - sinAsinB", "sinAcosB + cosAsinB", "sinAcosB - cosAsinB"], correct: 1, hint: "Formula sumei pentru cosinus.", explanations: ["Greșit: Semnul greșit.", "Corect: cos(A+B) = cosAcosB - sinAsinB.", "Greșit: Aceasta este pentru sinus.", "Greșit: Nu este pentru cosinus."] },
+    { category: "Formule trigonometrice", q: "cos²θ =", a: ["(1 - cos2θ)/2", "1 - sin²θ", "2cosθsinθ", "(1 + cos2θ)/2"], correct: 3, hint: "Formula pentru pătratul cosinusului.", explanations: ["Greșit: Aceasta este pentru sin²θ.", "Greșit: Nu se împarte la 2.", "Greșit: Aceasta este sin2θ.", "Corect: cos²θ = (1 + cos2θ)/2."] },
+    { category: "Formule trigonometrice", q: "sin²θ + cos²θ =", a: ["1", "0", "2", "θ"], correct: 0, hint: "Identitatea fundamentală în trigonometrie.", explanations: ["Corect: sin²θ + cos²θ = 1.", "Greșit: Nu este 0.", "Greșit: Nu este 2.", "Greșit: Nu este θ."] },
+    { category: "Formule trigonometrice", q: "tan(90° - θ) =", a: ["tanθ", "sinθ", "cotθ", "cosθ"], correct: 2, hint: "Complementul pentru tangentă.", explanations: ["Greșit: Este tanθ.", "Greșit: Este sinθ.", "Corect: tan(90° - θ) = cotθ.", "Greșit: Este cosθ."] },
+    { category: "Formule trigonometrice", q: "tanθ =", a: ["sinθ / cosθ", "cosθ / sinθ", "1 / sinθ", "1 / cosθ"], correct: 0, hint: "Tangenta este sinus împărțit la cosinus.", explanations: ["Corect: tanθ = sinθ / cosθ.", "Greșit: Aceasta este cotangenta.", "Greșit: Aceasta este cosecanta.", "Greșit: Aceasta este secanta."] },
+    { category: "Formule trigonometrice", q: "cos(A-B) =", a: ["cosAcosB - sinAsinB", "sinAcosB + cosAsinB", "cosAcosB + sinAsinB", "sinAcosB - cosAsinB"], correct: 2, hint: "Formula diferenței pentru cosinus.", explanations: ["Greșit: Semnul greșit.", "Greșit: Aceasta este pentru sinus.", "Corect: cos(A-B) = cosAcosB + sinAsinB.", "Greșit: Nu este pentru cosinus."] },
+    { category: "Formule trigonometrice", q: "sin²θ =", a: ["(1 + cos2θ)/2", "1 - cos²θ", "2sinθcosθ", "(1 - cos2θ)/2"], correct: 3, hint: "Formula pentru pătratul sinusului.", explanations: ["Greșit: Aceasta este pentru cos²θ.", "Greșit: Nu se împarte la 2.", "Greșit: Aceasta este sin2θ.", "Corect: sin²θ = (1 - cos2θ)/2."] },
+    { category: "Formule trigonometrice", q: "sin(2θ) =", a: ["sinθ + cosθ", "2sinθcosθ", "2sinθ - 2cosθ", "sin²θ - cos²θ"], correct: 1, hint: "Formula dublului unghi pentru sinus.", explanations: ["Greșit: Nu se adună.", "Corect: sin(2θ) = 2sinθcosθ.", "Greșit: Nu se scade.", "Greșit: Aceasta este pentru cosinus."] },
+    { category: "Formule trigonometrice", q: "cos(2θ) =", a: ["2cosθsinθ", "cos²θ - sin²θ", "cos²θ + sin²θ", "2cosθ - 2sinθ"], correct: 1, hint: "Formula dublului unghi pentru cosinus.", explanations: ["Greșit: Aceasta este pentru sinus.", "Corect: cos(2θ) = cos²θ - sin²θ.", "Greșit: Nu se scade.", "Greșit: Nu se scade."] },
+    { category: "Formule trigonometrice", q: "Calculează tan(45°).", a: ["0", "√3", "1/2", "1"], correct: 3, hint: "Valoarea cunoscută a tangentei la 45°.", explanations: ["Greșit: tan(0°).", "Greșit: tan(60°).", "Greșit: tan(30°).", "Corect: tan(45°) = 1."] },
+    { category: "Formule trigonometrice", q: "cscθ =", a: ["1 / sinθ", "1 / cosθ", "cosθ / sinθ", "sinθ / cosθ"], correct: 0, hint: "Cosecanta este inversul sinusului.", explanations: ["Corect: cscθ = 1 / sinθ.", "Greșit: Aceasta este secanta.", "Greșit: Aceasta este cotangenta.", "Greșit: Aceasta este tangenta."] },
+    { category: "Formule trigonometrice", q: "tan(2θ) =", a: ["tanθ / 2", "2tanθ / (1 - tan²θ)", "tan²θ", "2tanθ"], correct: 1, hint: "Formula dublului unghi pentru tangentă.", explanations: ["Greșit: Nu se împarte la 2.", "Corect: tan(2θ) = 2tanθ / (1 - tan²θ).", "Greșit: Nu se ridică la pătrat.", "Greșit: Lipseste împărțirea."] },
+    { category: "Formule trigonometrice", q: "sin(A+B) =", a: ["cosAcosB + sinAsinB", "sinAcosB + cosAsinB", "cosAcosB - sinAsinB", "sinAcosB - cosAsinB"], correct: 1, hint: "Formula sumei pentru sinus.", explanations: ["Greșit: Nu este pentru sinus.", "Corect: sin(A+B) = sinAcosB + cosAsinB.", "Greșit: Aceasta este pentru cosinus.", "Greșit: Semnul greșit."] },
+    { category: "Formule trigonometrice", q: "sin(A-B) =", a: ["sinAcosB + cosAsinB", "cosAcosB + sinAsinB", "sinAcosB - cosAsinB", "cosAcosB - sinAsinB"], correct: 2, hint: "Formula diferenței pentru sinus.", explanations: ["Greșit: Semnul greșit.", "Greșit: Nu este pentru sinus.", "Corect: sin(A-B) = sinAcosB - cosAsinB.", "Greșit: Aceasta este pentru cosinus."] },
+    { category: "Formule trigonometrice", q: "sin(90° - θ) =", a: ["sinθ", "tanθ", "cosθ", "cotθ"], correct: 2, hint: "Complementul pentru sinus.", explanations: ["Greșit: Este sinθ.", "Greșit: Este tanθ.", "Corect: sin(90° - θ) = cosθ.", "Greșit: Este cotθ."] },
+    { category: "Formule trigonometrice", q: "secθ =", a: ["1 / cosθ", "1 / sinθ", "cosθ / sinθ", "sinθ / cosθ"], correct: 0, hint: "Secanta este inversul cosinusului.", explanations: ["Corect: secθ = 1 / cosθ.", "Greșit: Aceasta este cosecanta.", "Greșit: Aceasta este cotangenta.", "Greșit: Aceasta este tangenta."] },
+    { category: "Formule trigonometrice", q: "Dacă sinθ = 3/5, cosθ = 4/5, tanθ =", a: ["4/3", "5/3", "3/5", "3/4"], correct: 3, hint: "tanθ = sinθ / cosθ.", explanations: ["Greșit: Invers.", "Greșit: 5/3.", "Greșit: Este sinθ.", "Corect: 3/5 / 4/5 = 3/4."] },
+    { category: "Formule trigonometrice", q: "cos(90° - θ) =", a: ["cosθ", "tanθ", "sinθ", "cotθ"], correct: 2, hint: "Complementul pentru cosinus.", explanations: ["Greșit: Este cosθ.", "Greșit: Este tanθ.", "Corect: cos(90° - θ) = sinθ.", "Greșit: Este cotθ."] },
+    { category: "Formule trigonometrice", q: "Calculează sin(30°).", a: ["√3/2", "1", "0", "1/2"], correct: 3, hint: "Valoarea cunoscută a sinusului la 30°.", explanations: ["Greșit: Aceasta este cos(30°).", "Greșit: sin(90°).", "Greșit: sin(0°).", "Corect: sin(30°) = 1/2."] },
+    { category: "Formule trigonometrice", q: "cotθ =", a: ["cosθ / sinθ", "sinθ / cosθ", "1 / sinθ", "1 / cosθ"], correct: 0, hint: "Cotangenta este cosinus împărțit la sinus.", explanations: ["Corect: cotθ = cosθ / sinθ.", "Greșit: Aceasta este tangenta.", "Greșit: Aceasta este cosecanta.", "Greșit: Aceasta este secanta."] },
+    { category: "Formule trigonometrice", q: "Dacă cosθ = 4/5, sinθ =", a: ["5/4", "4/3", "1", "3/5"], correct: 3, hint: "Din sin²θ + cos²θ = 1.", explanations: ["Greșit: Invers.", "Greșit: 4/3.", "Greșit: Nu este 1.", "Corect: sinθ = √(1 - (4/5)²) = √(1 - 16/25) = √(9/25) = 3/5."] }
 ];
 
 const allCategories = [...new Set(questions.map(item => item.category))];
@@ -132,25 +184,22 @@ document.getElementById('start-quiz').addEventListener('click', () => {
 });
 
 document.getElementById('restart-quiz').addEventListener('click', () => {
-    // Reset all sections
     document.getElementById('result-section').style.display = 'none';
     document.getElementById('quiz-section').style.display = 'none';
     document.getElementById('nume-section').style.display = 'block';
     
-    // Reset variables
     currentQ = 0;
     score = 0;
     filteredQuestions = [];
     answers.length = 0;
     selectedCategories = [];
     
-    // Reset form (keep name, uncheck categories)
     const checkboxes = document.querySelectorAll('#category-selection input[type="checkbox"]');
     checkboxes.forEach(cb => {
         cb.checked = false;
         cb.parentElement.classList.remove('selected');
     });
-    renderCategorySelection(); // Re-render categories
+    renderCategorySelection(); 
 });
 
 function showQuestion() {
@@ -184,27 +233,24 @@ function checkAnswer(idx) {
 
     if (isCorrect) score++;
 
-    // Disable all buttons and highlight
     const buttons = document.querySelectorAll('#q-options button');
     buttons.forEach((btn, i) => {
         btn.disabled = true;
         if (i === q.correct) {
-            btn.style.background = '#4CAF50'; // Green for correct
+            btn.style.background = '#4CAF50'; 
             btn.style.color = 'white';
         } else if (i === idx && !isCorrect) {
-            btn.style.background = '#f44336'; // Red for wrong selected
+            btn.style.background = '#f44336'; 
             btn.style.color = 'white';
         }
     });
 
-    // Show explanation
     const explanationDiv = document.getElementById('explanation');
     explanationDiv.innerText = q.explanations[idx];
     explanationDiv.style.display = 'block';
     explanationDiv.style.background = isCorrect ? '#e8f5e8' : '#ffebee';
     explanationDiv.style.borderLeft = `4px solid ${isCorrect ? '#4CAF50' : '#f44336'}`;
 
-    // Save answer with hint usage and solution image
     answers.push({
         question: q.q,
         category: q.category,
@@ -215,7 +261,6 @@ function checkAnswer(idx) {
         solutionImage: currentQuestionSolution
     });
 
-    // Auto advance after 3 seconds
     setTimeout(() => {
         currentQ++;
         hintUsedForCurrentQuestion = false;
@@ -230,7 +275,6 @@ function finishQuiz() {
     
     const nume = document.getElementById('username').value;
     if (database) {
-        // Salvare în Firebase (push pentru istoricul execuțiilor)
         database.ref('scoruri').push({
             nume: nume,
             scor: score,
